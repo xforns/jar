@@ -1,11 +1,10 @@
 import Matter from 'matter-js';
 import pathseg from 'pathseg';
 import Stone from 'model/Stone';
-import logme from 'utils';
+import Jar from 'model/Jar';
 
 export default function sketch(p5) {
-
-
+  
   var Engine = Matter.Engine;
   var Render = Matter.Render;
   var World = Matter.World;
@@ -23,59 +22,25 @@ export default function sketch(p5) {
   var canvasH;
 
   var jar;
-  var JAR_MARGIN_L = 120;
-  var JAR_MARGIN_R = 360;
-  var JAR_MARGIN_T = 240;
-  var JAR_MARGIN_B = 60;
+  var stone;
 
 
   //
   // own methods
   //
-  var updateJar = function() {
-    jar = [
-      Bodies.rectangle(0,
-                       JAR_MARGIN_T+(canvasH-JAR_MARGIN_T-JAR_MARGIN_B)/2,
-                       JAR_MARGIN_L*2,
-                       canvasH-JAR_MARGIN_T-JAR_MARGIN_B,
-                       { isStatic: true }),
-      Bodies.rectangle(JAR_MARGIN_L+(canvasW-JAR_MARGIN_L-JAR_MARGIN_R)/2,
-                       canvasH,
-                       canvasW-JAR_MARGIN_L-JAR_MARGIN_R,
-                       JAR_MARGIN_B*2,
-                       { isStatic: true }),
-      Bodies.rectangle(canvasW,
-                       JAR_MARGIN_T+(canvasH-JAR_MARGIN_T-JAR_MARGIN_B)/2,
-                       JAR_MARGIN_R*2,
-                       canvasH-JAR_MARGIN_T-JAR_MARGIN_B,
-                       { isStatic: true }),
-    ];
-  };
 
   var updateStones = function() {
     stone.update();
   };
 
   var update = function() {
-    updateJar();
+    jar.update(Bodies,canvasW,canvasH);
     updateStones();
   };
-
-  var drawJar = function() {
-    p5.stroke(255);
-    p5.strokeWeight(1);
-    p5.fill(255, 50);
-
-    p5.line(jar[0].vertices[1].x,jar[0].vertices[1].y,jar[0].vertices[2].x,jar[0].vertices[2].y);
-    p5.line(jar[1].vertices[0].x,jar[1].vertices[0].y,jar[1].vertices[1].x,jar[1].vertices[1].y);
-    p5.line(jar[2].vertices[3].x,jar[2].vertices[3].y,jar[2].vertices[0].x,jar[2].vertices[0].y);
-  }
 
   var drawStones = function() {
     stone.draw();
   };
-  console.log(Stone);
-  var stone = new Stone(p5);
 
 
   //
@@ -83,6 +48,9 @@ export default function sketch(p5) {
   //
 
   p5.setup = () => {
+    stone = new Stone(p5);
+    jar = new Jar(p5);
+
     canvasW = p5.windowWidth;
     canvasH = p5.windowHeight;
     canvas = p5.createCanvas(canvasW, canvasH);
@@ -102,11 +70,12 @@ export default function sketch(p5) {
       });
     mouseConstraint.mouse.pixelRatio = p5.pixelDensity();
 
-    World.add(world,mouseConstraint);
-    World.add(world,stone.setup(Bodies));
+    jar.update(Bodies,canvasW,canvasH);
+    stone.setup(Bodies)
 
-    update();
-    World.add(engine.world, jar);
+    World.add(world,mouseConstraint);
+    World.add(world,stone.body);
+    World.add(engine.world,jar.bodies);
 
     Engine.run(engine);
   }
@@ -114,7 +83,7 @@ export default function sketch(p5) {
   p5.draw = () => {
     p5.background(51);
 
-    drawJar();
+    jar.draw();
     drawStones();
   }
 
