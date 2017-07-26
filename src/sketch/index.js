@@ -1,5 +1,6 @@
 import Matter from 'matter-js';
 import pathseg from 'pathseg';
+import Stone from 'model/Stone';
 import logme from 'utils';
 
 export default function sketch(p5) {
@@ -12,7 +13,6 @@ export default function sketch(p5) {
   var Mouse = Matter.Mouse;
   var MouseConstraint = Matter.MouseConstraint;
   var Vertices = Matter.Vertices;
-  var Svg = Matter.Svg;
 
   var engine;
   var world;
@@ -52,52 +52,6 @@ export default function sketch(p5) {
     ];
   };
 
-  var Stone = function() {
-  };
-
-  Stone.prototype = {
-
-    createAndAttachBody: function(content,world) {
-      var parser = new DOMParser();
-      var doc = parser.parseFromString(content, "image/svg+xml");
-      var path = doc.getElementsByTagName('path');
-      var i = path.length;
-      var vertexSets = [];
-      while(i--) {
-        vertexSets.push(Svg.pathToVertices(path[i], 10));
-      }
-      this.body = Bodies.fromVertices(150, 200, vertexSets);
-      World.add(world,this.body);
-    },
-
-    setup: function(world) {
-      var request = new XMLHttpRequest();
-      request.addEventListener("load", (event) => {
-        var response = event.target.responseText;
-        this.createAndAttachBody(response,world);
-      });
-      request.open("GET", "assets/stone.svg");
-      request.setRequestHeader("Content-Type", "image/svg+xml");
-      request.send();
-    },
-
-    update: function() {
-    },
-
-    draw: function() {
-      p5.stroke(255);
-      p5.strokeWeight(1);
-      p5.beginShape();
-      if(this.body === undefined) {
-        return;
-      }
-      for(var i in this.body.vertices) {
-        p5.vertex(this.body.vertices[i].x,this.body.vertices[i].y);
-      }
-      p5.endShape(p5.CLOSE);
-    }
-  };
-
   var updateStones = function() {
     stone.update();
   };
@@ -120,8 +74,8 @@ export default function sketch(p5) {
   var drawStones = function() {
     stone.draw();
   };
-
-  var stone = new Stone();
+  console.log(Stone);
+  var stone = new Stone(p5);
 
 
   //
@@ -149,10 +103,8 @@ export default function sketch(p5) {
     mouseConstraint.mouse.pixelRatio = p5.pixelDensity();
 
     World.add(world,mouseConstraint);
+    World.add(world,stone.setup(Bodies));
 
-    stone.setup(world);
-
-    //World.add(engine.world, Bodies.fromVertices(200, 200, stone.vertexSets, true));
     update();
     World.add(engine.world, jar);
 
