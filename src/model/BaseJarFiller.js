@@ -15,7 +15,7 @@ class BaseJarFiller {
     var i = path.length;
     var vertexSets = [];
     while(i--) {
-      vertexSets.push(this.Svg.pathToVertices(path[i], 10));
+      vertexSets.push(this.Svg.pathToVertices(path[i], 2));
     }
     this.body = bodies.fromVertices(150, 200, vertexSets);
   }

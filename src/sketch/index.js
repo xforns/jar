@@ -1,10 +1,11 @@
 import Matter from 'matter-js';
 import pathseg from 'pathseg';
 import Stone from 'model/Stone';
+import Pebble from 'model/Pebble';
 import Jar from 'model/Jar';
 
 export default function sketch(p5) {
-  
+
   var Engine = Matter.Engine;
   var Render = Matter.Render;
   var World = Matter.World;
@@ -23,6 +24,7 @@ export default function sketch(p5) {
 
   var jar;
   var stone;
+  var pebble;
 
 
   //
@@ -31,6 +33,7 @@ export default function sketch(p5) {
 
   var updateStones = function() {
     stone.update();
+    pebble.update();
   };
 
   var update = function() {
@@ -40,6 +43,7 @@ export default function sketch(p5) {
 
   var drawStones = function() {
     stone.draw();
+    pebble.draw();
   };
 
 
@@ -50,6 +54,7 @@ export default function sketch(p5) {
   p5.setup = () => {
     stone = new Stone(p5);
     jar = new Jar(p5);
+    pebble = new Pebble(p5);
 
     canvasW = p5.windowWidth;
     canvasH = p5.windowHeight;
@@ -71,10 +76,12 @@ export default function sketch(p5) {
     mouseConstraint.mouse.pixelRatio = p5.pixelDensity();
 
     jar.update(Bodies,canvasW,canvasH);
-    stone.setup(Bodies)
+    stone.setup(Bodies);
+    pebble.setup(Bodies);
 
     World.add(world,mouseConstraint);
     World.add(world,stone.body);
+    World.add(world,pebble.body);
     World.add(engine.world,jar.bodies);
 
     Engine.run(engine);
