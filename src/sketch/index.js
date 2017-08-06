@@ -52,9 +52,9 @@ export default function sketch(p5) {
   //
 
   p5.setup = () => {
-    stone = new Stone(p5);
     jar = new Jar(p5);
-    pebble = new Pebble(p5);
+    stone = new Stone(p5,canvasW/2,600);
+    pebble = new Pebble(p5,canvasW/2,700);
 
     canvasW = p5.windowWidth;
     canvasH = p5.windowHeight;

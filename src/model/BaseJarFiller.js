@@ -3,8 +3,10 @@ import pathseg from 'pathseg';
 
 class BaseJarFiller {
 
-  constructor(p5) {
+  constructor(p5,x,y) {
     this.p5 = p5;
+    this.x = x;
+    this.y = y;
     this.Svg = Matter.Svg;
   }
 
@@ -17,7 +19,7 @@ class BaseJarFiller {
     while(i--) {
       vertexSets.push(this.Svg.pathToVertices(path[i], 2));
     }
-    this.body = bodies.fromVertices(150, 200, vertexSets);
+    this.body = bodies.fromVertices(this.x, this.y, vertexSets);
   }
 
   setup(bodies) {

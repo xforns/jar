@@ -2,8 +2,8 @@ import BaseJarFiller from 'model/BaseJarFiller';
 
 class Stone extends BaseJarFiller {
 
-  constructor(p5) {
-    super(p5);
+  constructor(p5,x,y) {
+    super(p5,x,y);
     this.filename = "assets/stone.svg"
   }
 }
