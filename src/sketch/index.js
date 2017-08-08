@@ -52,10 +52,6 @@ export default function sketch(p5) {
   //
 
   p5.setup = () => {
-    jar = new Jar(p5);
-    stone = new Stone(p5,canvasW/2,600);
-    pebble = new Pebble(p5,canvasW/2,700);
-
     canvasW = p5.windowWidth;
     canvasH = p5.windowHeight;
     canvas = p5.createCanvas(canvasW, canvasH);
@@ -75,6 +71,10 @@ export default function sketch(p5) {
       });
     mouseConstraint.mouse.pixelRatio = p5.pixelDensity();
 
+    jar = new Jar(p5);
+    stone = new Stone(p5,canvasW/2,600);
+    pebble = new Pebble(p5,canvasW/2,700);
+    
     jar.update(Bodies,canvasW,canvasH);
     stone.setup(Bodies);
     pebble.setup(Bodies);
