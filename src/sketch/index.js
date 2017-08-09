@@ -77,11 +77,11 @@ export default function sketch(p5) {
       });
     mouseConstraint.mouse.pixelRatio = p5.pixelDensity();
 
-    jar = new Jar(p5);
+    jar = new Jar(p5,canvasW,canvasH);
     stone = new Stone(p5,canvasW/2,600);
     pebble = new Pebble(p5,canvasW/2,700);
 
-    jar.update(Bodies,canvasW,canvasH);
+    jar.setup(Bodies);
     stone.setup(Bodies);
     pebble.setup(Bodies);
 

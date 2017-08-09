@@ -11,30 +11,38 @@ const JAR_MARGIN_B = 60;
 
 class Jar {
 
-  constructor(p5) {
+  constructor(p5,canvasW,canvasH) {
     this.p5 = p5;
+    this.canvasW = canvasW;
+    this.canvasH = canvasH;
     this.Svg = Matter.Svg;
     this.bJar = [];
   }
 
-  update(bodies,canvasW,canvasH) {
+  setup(bodies) {
     this.bJar = [
       bodies.rectangle(JAR_MARGIN_L+JAR_B1_W/2,
-                       JAR_MARGIN_T+(canvasH-JAR_MARGIN_T-JAR_MARGIN_B)/2,
+                       JAR_MARGIN_T+(this.canvasH-JAR_MARGIN_T-JAR_MARGIN_B)/2,
                        JAR_B1_W,
-                       canvasH-JAR_MARGIN_T-JAR_MARGIN_B,
+                       this.canvasH-JAR_MARGIN_T-JAR_MARGIN_B,
                        { isStatic: true }),
-      bodies.rectangle(JAR_MARGIN_L+(canvasW-JAR_MARGIN_L-JAR_MARGIN_R)/2,
-                       canvasH-JAR_MARGIN_B-JAR_B3_W/2,
-                       canvasW-JAR_MARGIN_L-JAR_MARGIN_R,
+      bodies.rectangle(JAR_MARGIN_L+(this.canvasW-JAR_MARGIN_L-JAR_MARGIN_R)/2,
+                       this.canvasH-JAR_MARGIN_B-JAR_B3_W/2,
+                       this.canvasW-JAR_MARGIN_L-JAR_MARGIN_R,
                        JAR_B3_W,
                        { isStatic: true }),
-      bodies.rectangle(canvasW-JAR_MARGIN_R-JAR_B3_W/2,
-                       JAR_MARGIN_T+(canvasH-JAR_MARGIN_T-JAR_MARGIN_B)/2,
+      bodies.rectangle(this.canvasW-JAR_MARGIN_R-JAR_B3_W/2,
+                       JAR_MARGIN_T+(this.canvasH-JAR_MARGIN_T-JAR_MARGIN_B)/2,
                        JAR_B3_W,
-                       canvasH-JAR_MARGIN_T-JAR_MARGIN_B,
+                       this.canvasH-JAR_MARGIN_T-JAR_MARGIN_B,
                        { isStatic: true }),
     ];
+  }
+
+  update(bodies,canvasW,canvasH) {
+    this.canvasW = canvasW;
+    this.canvasH = canvasH;
+    this.setup(bodies);
   }
 
   get bodies() {
