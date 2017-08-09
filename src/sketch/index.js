@@ -3,6 +3,8 @@ import pathseg from 'pathseg';
 import Stone from 'model/Stone';
 import Pebble from 'model/Pebble';
 import Jar from 'model/Jar';
+import GuiFacade from 'gui/guiFacade';
+import TouchState from 'utils/constants';
 
 export default function sketch(p5) {
 
@@ -18,6 +20,8 @@ export default function sketch(p5) {
   var world;
   var bodies;
 
+  var guiFacade;
+
   var canvas;
   var canvasW;
   var canvasH;
@@ -25,7 +29,6 @@ export default function sketch(p5) {
   var jar;
   var stone;
   var pebble;
-
 
   //
   // own methods
@@ -58,6 +61,9 @@ export default function sketch(p5) {
     engine = Engine.create();
     world = engine.world;
 
+    guiFacade = new GuiFacade(p5,canvasW,canvasH);
+    guiFacade.setup();
+
     // add mouse control
     var mouse = Mouse.create(canvas.elt),
       mouseConstraint = MouseConstraint.create(engine, {
@@ -74,7 +80,7 @@ export default function sketch(p5) {
     jar = new Jar(p5);
     stone = new Stone(p5,canvasW/2,600);
     pebble = new Pebble(p5,canvasW/2,700);
-    
+
     jar.update(Bodies,canvasW,canvasH);
     stone.setup(Bodies);
     pebble.setup(Bodies);
@@ -90,8 +96,24 @@ export default function sketch(p5) {
   p5.draw = () => {
     p5.background(51);
 
+    guiFacade.draw();
     jar.draw();
     drawStones();
+  }
+
+  p5.touchStarted = () => {
+    guiFacade.handleTouchInteraction(TouchState.START);
+    return false;
+  }
+
+  p5.touchMoved = () => {
+    guiFacade.handleTouchInteraction(TouchState.MOVE);
+    return false;
+  }
+
+  p5.touchEnded = () => {
+    guiFacade.handleTouchInteraction(TouchState.END);
+    return false;
   }
 
   p5.windowResized = () => {
