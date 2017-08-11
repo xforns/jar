@@ -4,10 +4,20 @@ class MouseInteractor {
     this.objects = [];
   }
 
-  add(object) {
-    console.log(object);
-    if(typeof(object.coords)=="object") {
-      this.objects.push(object);
+  add(obj) {
+    if(obj.constructor.name=="Array") {
+      obj.forEach((item,index) => {
+        this.pushObject(item);
+      });
+    }
+    else {
+      this.pushObject(obj);
+    }
+  }
+
+  pushObject(obj) {
+    if(typeof(obj.coords)=="object") {
+      this.objects.push(obj);
     }
   }
 
@@ -20,7 +30,7 @@ class MouseInteractor {
     }
     return undefined;
   }
-  
+
 }
 
 export default MouseInteractor;
