@@ -5,7 +5,7 @@ const JAR_B1_W = 20;
 const JAR_B2_W = 20;
 const JAR_B3_W = 20;
 const JAR_MARGIN_L = 200;
-const JAR_MARGIN_R = 400;
+const JAR_MARGIN_R = 200;
 const JAR_MARGIN_T = 240;
 const JAR_MARGIN_B = 60;
 

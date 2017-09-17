@@ -4,6 +4,9 @@ import TouchState from 'utils/constants';
 
 export default function sketch(p5) {
 
+  var maxWidth;
+  var sideWidth;
+  var prevWidth;
   var guiFacade;
   var worldFacade;
 
@@ -13,7 +16,10 @@ export default function sketch(p5) {
 
 
   p5.setup = () => {
-    canvasW = p5.windowWidth;
+    maxWidth = document.getElementById("main").offsetWidth;
+    sideWidth = document.getElementById("side").offsetWidth;
+    prevWidth = p5.windowWidth;
+    canvasW = maxWidth;
     canvasH = p5.windowHeight;
     canvas = p5.createCanvas(canvasW, canvasH);
 
@@ -48,7 +54,11 @@ export default function sketch(p5) {
   }
 
   p5.windowResized = () => {
-    canvasW = p5.windowWidth;
+    var diff = prevWidth - p5.windowWidth;
+    canvasW = maxWidth - (diff/3)*2;
+    var sideSection = document.getElementById("side");
+    sideSection.style.width = diff/3;
+
     canvasH = p5.windowHeight;
     p5.resizeCanvas(canvasW, canvasH);
 

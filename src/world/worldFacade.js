@@ -63,7 +63,6 @@ class WorldFacade {
   }
 
   update(canvasW,canvasH) {
-    console.log(canvasW);
     this.canvasW = canvasW;
     this.canvasH = canvasH;
     this.jar.update(this.Bodies,this.canvasW,this.canvasH);
