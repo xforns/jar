@@ -8,10 +8,12 @@
     "start": "webpack-dev-server --config webpack.config.development.js"
   },
   "dependencies": {
+    "dat.gui": "^0.6.1",
     "matter-js": "^0.13.0",
     "p5": "^0.5.11",
     "pathseg": "^1.0.2",
-    "poly-decomp": "^0.2.1"
+    "poly-decomp": "^0.2.1",
+    "quicksettings": "^3.0.1"
   },
   "devDependencies": {
     "gulp": "3.9.1",
